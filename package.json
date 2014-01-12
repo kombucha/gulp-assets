@@ -1,0 +1,41 @@
+{
+  "name": "gulp-assets",
+  "version": "0.0.1",
+  "description": "A plugin for Gulp",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "homepage": "https://github.com/kombucha/gulp-assets",
+  "bugs": "https://github.com/kombucha/gulp-assets/issues",
+  "author": {
+    "name": "kombucha",
+    "email": "",
+    "url": "https://github.com/kombucha"
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kombucha/gulp-assets.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "through": "~2.3.4",
+    "gulp-util": "~2.2.0"
+  },
+  "devDependencies": {
+    "event-stream": "*",
+    "mocha": "~1.14.0",
+    "should": "~2.1.0"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
