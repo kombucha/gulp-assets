@@ -2,3 +2,5 @@
 node_modules/
 temp/
 .idea
+coverage/
+npm-debug.log
