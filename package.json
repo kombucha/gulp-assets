@@ -39,7 +39,8 @@
   },
   "licenses": [
     {
-      "type": "MIT"
+      "type": "MIT",
+      "url": "https://github.com/kombucha/gulp-assets/blob/master/LICENSE"
     }
   ]
 }
