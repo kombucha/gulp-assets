@@ -1,4 +1,4 @@
-# gulp-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
+# gulp-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status](coveralls-image)](coveralls-url) [![Dependency Status][depstat-image]][depstat-url]
 
 > assets plugin for [gulp](https://github.com/wearefractal/gulp)
 
@@ -49,6 +49,9 @@ Whether you wish to get css files
 
 [travis-url]: http://travis-ci.org/kombucha/gulp-assets
 [travis-image]: https://secure.travis-ci.org/kombucha/gulp-assets.png?branch=master
+
+[coveralls-url]: https://coveralls.io/r/kombucha/gulp-assets
+[coveralls-image]: https://coveralls.io/repos/kombucha/gulp-assets/badge.png
 
 [depstat-url]: https://david-dm.org/kombucha/gulp-assets
 [depstat-image]: https://david-dm.org/kombucha/gulp-assets.png
