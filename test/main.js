@@ -45,6 +45,37 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
+    it("should find the javascript files using shorthand helper", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo.html")
+            }),
+            stream = assets.js(),
+            javascriptFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            javascriptFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            javascriptFiles.should.have.lengthOf(2)
+                .and.contain('test/fixtures/js/foo.js')
+                .and.contain('test/fixtures/js/bar.js');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
     it("should find the css files", function (done) {
 
         var srcFile = new gutil.File({
@@ -57,6 +88,37 @@ describe("gulp-assets", function () {
                 js: false,
                 css: true
             }),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(2)
+                .and.contain('test/fixtures/css/foo.css')
+                .and.contain('test/fixtures/css/bar.css');;
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the css files using shorthand helper", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo.html")
+            }),
+            stream = assets.css(),
             cssFiles = [];
 
         stream.on("error", function (err) {
