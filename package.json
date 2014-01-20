@@ -1,6 +1,6 @@
 {
   "name": "gulp-assets",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A plugin for Gulp that extracts the javascript and css files from your html and makes them available to other gulp tasks. ",
   "keywords": [
     "gulpplugin"

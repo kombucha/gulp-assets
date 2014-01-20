@@ -23,6 +23,12 @@ gulp.src("./src/*.html")
 	.pipe(gulp.dest("./dist"));
 ```
 
+Shortcuts methods (thanks @kjbekkelund):
+```javascript
+assets.js(); // Only js files
+assets.css(); // Only css files
+```
+
 ## API
 
 ### assets(options)
