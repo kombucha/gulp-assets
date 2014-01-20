@@ -66,3 +66,11 @@ module.exports = function (opts) {
         });
     });
 };
+
+module.exports.js = function() {
+    return this({ css: false, js: true });
+};
+
+module.exports.css = function() {
+    return this({ css: true, js: false });
+};
