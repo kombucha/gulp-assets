@@ -12,11 +12,13 @@ module.exports = function (opts) {
     opts.css = 'css' in opts ? opts.css : false;
 
     function findJavascriptResources(htmlStr) {
-        var JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
+        var BUILD_REGEX = /(<!-- build:js -->)([\s\S]*?)(<!-- endbuild -->)/,
+            buildStr = BUILD_REGEX.exec(htmlStr)[2],
+            JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
             resultsArray = [],
             matchArray;
 
-        while (matchArray = JS_REGEX.exec(htmlStr)) {
+        while (matchArray = JS_REGEX.exec(buildStr)) {
             resultsArray.push(matchArray[1]);
         }
 
@@ -24,11 +26,13 @@ module.exports = function (opts) {
     }
 
     function findCSSResources(htmlStr) {
-        var CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+        var BUILD_REGEX = /(<!-- build:css -->)([\s\S]*?)(<!-- endbuild -->)/,
+            CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+            buildStr = BUILD_REGEX.exec(htmlStr)[2],
             resultsArray = [],
             matchArray;
 
-        while (matchArray = CSS_REGEX.exec(htmlStr)) {
+        while (matchArray = CSS_REGEX.exec(buildStr)) {
             resultsArray.push(matchArray[1]);
         }
 

@@ -11,7 +11,7 @@ var gutil = require("gulp-util"),
 
 describe("gulp-assets", function () {
 
-    it("should find the javascript files", function (done) {
+    it("should find the javascript files only whithin build comment and actually exist", function (done) {
 
         var srcFile = new gutil.File({
                 path: "test/fixtures/foo.html",
@@ -76,7 +76,7 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
-    it("should find the css files", function (done) {
+    it("should find the css files only whithin build comment and actually exist", function (done) {
 
         var srcFile = new gutil.File({
                 path: "test/fixtures/foo.html",

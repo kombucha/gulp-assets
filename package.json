@@ -15,7 +15,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kombucha/gulp-assets.git"
+    "url": "git://github.com/jozzhart/gulp-assets.git"
   },
   "scripts": {
     "test": "./node_modules/istanbul/lib/cli.js test _mocha --report html -- test/*.js --reporter spec",
