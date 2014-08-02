@@ -10,15 +10,19 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.js = 'js' in opts ? opts.js : true;
     opts.css = 'css' in opts ? opts.css : false;
+    opts.commentWrappers = 'commentWrappers' in opts ? opts.commentWrappers : false;
 
     function findJavascriptResources(htmlStr) {
         var BUILD_REGEX = /(<!-- build:js -->)([\s\S]*?)(<!-- endbuild -->)/,
-            buildStr = BUILD_REGEX.exec(htmlStr)[2],
             JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
             resultsArray = [],
             matchArray;
 
-        while (matchArray = JS_REGEX.exec(buildStr)) {
+        if(opts.commentWrappers) {
+            htmlStr = BUILD_REGEX.exec(htmlStr)[2];
+        }
+
+        while (matchArray = JS_REGEX.exec(htmlStr)) {
             resultsArray.push(matchArray[1]);
         }
 
@@ -28,11 +32,14 @@ module.exports = function (opts) {
     function findCSSResources(htmlStr) {
         var BUILD_REGEX = /(<!-- build:css -->)([\s\S]*?)(<!-- endbuild -->)/,
             CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
-            buildStr = BUILD_REGEX.exec(htmlStr)[2],
             resultsArray = [],
             matchArray;
 
-        while (matchArray = CSS_REGEX.exec(buildStr)) {
+        if(opts.commentWrappers) {
+            htmlStr = BUILD_REGEX.exec(htmlStr)[2];
+        }
+
+        while (matchArray = CSS_REGEX.exec(htmlStr)) {
             resultsArray.push(matchArray[1]);
         }
 

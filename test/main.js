@@ -11,7 +11,7 @@ var gutil = require("gulp-util"),
 
 describe("gulp-assets", function () {
 
-    it("should find the javascript files only whithin build comment and actually exist", function (done) {
+    it("should find the javascript files", function (done) {
 
         var srcFile = new gutil.File({
                 path: "test/fixtures/foo.html",
@@ -22,6 +22,41 @@ describe("gulp-assets", function () {
             stream = assets({
                 js: true,
                 css: false
+            }),
+            javascriptFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            javascriptFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            javascriptFiles.should.have.lengthOf(3)
+                .and.contain('test/fixtures/js/foo.js')
+                .and.contain('test/fixtures/js/bar.js');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the javascript files whithin build comment when commentWrappers is true", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo.html")
+            }),
+            stream = assets({
+                js: true,
+                css: false,
+                commentWrappers: true
             }),
             javascriptFiles = [];
 
@@ -66,7 +101,7 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            javascriptFiles.should.have.lengthOf(2)
+            javascriptFiles.should.have.lengthOf(3)
                 .and.contain('test/fixtures/js/foo.js')
                 .and.contain('test/fixtures/js/bar.js');
             done();
@@ -76,7 +111,7 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
-    it("should find the css files only whithin build comment and actually exist", function (done) {
+    it("should find the css files", function (done) {
 
         var srcFile = new gutil.File({
                 path: "test/fixtures/foo.html",
@@ -87,6 +122,41 @@ describe("gulp-assets", function () {
             stream = assets({
                 js: false,
                 css: true
+            }),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(3)
+                .and.contain('test/fixtures/css/foo.css')
+                .and.contain('test/fixtures/css/bar.css');;
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the css files only whithin build comment", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo.html")
+            }),
+            stream = assets({
+                js: false,
+                css: true,
+                commentWrappers: true
             }),
             cssFiles = [];
 
@@ -131,7 +201,7 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            cssFiles.should.have.lengthOf(2)
+            cssFiles.should.have.lengthOf(3)
                 .and.contain('test/fixtures/css/foo.css')
                 .and.contain('test/fixtures/css/bar.css');;
             done();
