@@ -25,7 +25,7 @@ gulp.src("./src/*.html")
   .pipe(gulp.dest("./dist"));
 ```
 
-__Optional__ - Only get srcs from defined build sections in your html document
+__Optional__ - Only get srcs from specifed build sections in your html document
 
 ```javascript
 var assets = require("gulp-assets");
@@ -33,21 +33,22 @@ var assets = require("gulp-assets");
 gulp.src("./src/*.html")
     .pipe(assets({
       js: true,
-        css: false,
-        commentWrappers: true
+      css: false,
+      jsWrapper: 'primary',
+      cssWrapper: 'primary'
   }))
   .pipe(gulp.dest("./dist"));
 ```
 
 ```html
-<!-- build:css -->
+<!-- build:css:primary -->
 <link rel="stylesheet" href="css/foo.css"/>
 <link rel="stylesheet" href="css/bar.css"/>
 <link rel="stylesheet" href="css/baz.css"/>
 <!-- endbuild -->
 
 
-<!-- build:js -->
+<!-- build:js:primary -->
 <script src="js/foo.js"></script>
 <script src="js/bar.js"></script>
 <script src="js/baz.js"></script>
