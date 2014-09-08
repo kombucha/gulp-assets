@@ -3,13 +3,29 @@
 <head>
     <title></title>
 
+    <!-- build:css:primary -->
     <link rel="stylesheet" href="css/foo.css"/>
-    <link rel="stylesheet" href="css/bar.css"/><link rel="stylesheet" href="css/baz.css"/>
+    <link rel="stylesheet" href="css/bar.css"/>
+    <link rel="stylesheet" href="css/baz.css"/>
+    <!-- endbuild -->
+    <!-- build:css:secondary -->
+    <link rel="stylesheet" href="css/maz.css"/>
+    <!-- endbuild -->
+
 </head>
 <body>
 
+<!-- build:js:primary -->
 <script src="js/foo.js"></script>
-<script src="js/bar.js"></script><script src="js/baz.js"></script>
+<script src="js/bar.js"></script>
+<script src="js/baz.js"></script>
+<!-- endbuild -->
+
+<script src="js/maz.js"></script>
+
+<!-- build:js:secondary -->
+<script src="js/secondary.js"></script>
+<!-- endbuild -->
 
 </body>
 </html>

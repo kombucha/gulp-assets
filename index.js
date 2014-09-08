@@ -10,11 +10,17 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.js = 'js' in opts ? opts.js : true;
     opts.css = 'css' in opts ? opts.css : false;
+    opts.jsWrapper = 'jsWrapper' in opts ? opts.jsWrapper : null;
+    opts.cssWrapper = 'cssWrapper' in opts ? opts.cssWrapper : null;
 
     function findJavascriptResources(htmlStr) {
         var JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
             resultsArray = [],
             matchArray;
+
+        if(opts.jsWrapper != null) {
+            htmlStr = new RegExp("(<!-- build:js:" + opts.jsWrapper + " -->)([\\s\\S]*?)(<!-- endbuild -->)").exec(htmlStr)[2];
+        }
 
         while (matchArray = JS_REGEX.exec(htmlStr)) {
             resultsArray.push(matchArray[1]);
@@ -27,6 +33,10 @@ module.exports = function (opts) {
         var CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
             resultsArray = [],
             matchArray;
+
+        if(opts.cssWrapper != null) {
+            htmlStr = new RegExp("(<!-- build:css:" + opts.cssWrapper + " -->)([\\s\\S]*?)(<!-- endbuild -->)").exec(htmlStr)[2];
+        }
 
         while (matchArray = CSS_REGEX.exec(htmlStr)) {
             resultsArray.push(matchArray[1]);
