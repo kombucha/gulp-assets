@@ -12,11 +12,13 @@ module.exports = function (opts) {
     opts.css = 'css' in opts ? opts.css : false;
 
     function findJavascriptResources(htmlStr) {
-        var JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
+        var BUILD_REGEX = /(<!-- build:js -->)([\s\S]*?)(<!-- endbuild -->)/,
+            JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
+            buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = JS_REGEX.exec(htmlStr)) {
+        while (matchArray = JS_REGEX.exec(buildStr === null ? htmlStr : buildStr[2])) {
             resultsArray.push(matchArray[1]);
         }
 
