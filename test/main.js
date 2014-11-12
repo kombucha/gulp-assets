@@ -139,6 +139,69 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
+    it("should find the javascript files within the tagged comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets({
+                js: 'js2',
+                css: false
+            }),
+            javascriptFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            javascriptFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            javascriptFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/js/foo.js');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the javascript files using shorthand helper within the tagged comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets.js('js2'),
+            javascriptFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            javascriptFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            javascriptFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/js/foo.js');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
     it("should find the css files", function (done) {
 
         var srcFile = new gutil.File({
@@ -260,6 +323,69 @@ describe("gulp-assets", function () {
         stream.on("end", function () {
             cssFiles.should.have.lengthOf(1)
                 .and.contain('test/fixtures/css/bar.css');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the css files only within tagged comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets({
+                js: false,
+                css: 'css2'
+            }),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/css/foo.css');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the css files using shorthand helper only with tagged comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets.css('css2'),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/css/foo.css');
             done();
         });
 
