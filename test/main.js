@@ -204,6 +204,69 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
+    it("should find the css files only within comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets({
+                js: false,
+                css: true
+            }),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/css/bar.css');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
+    it("should find the css files using shorthand helper only with comments", function (done) {
+
+        var srcFile = new gutil.File({
+                path: "test/fixtures/foo-comments.html",
+                cwd: "test/",
+                base: "test/fixtures",
+                contents: fs.readFileSync("test/fixtures/foo-comments.html")
+            }),
+            stream = assets.css(),
+            cssFiles = [];
+
+        stream.on("error", function (err) {
+            should.exist(err);
+            done(err);
+        });
+
+        stream.on("data", function (newFile) {
+            cssFiles.push(newFile.path);
+        });
+
+        stream.on("end", function () {
+            cssFiles.should.have.lengthOf(1)
+                .and.contain('test/fixtures/css/bar.css');
+            done();
+        });
+
+        stream.write(srcFile);
+        stream.end();
+    });
+
     it("should error on stream", function (done) {
 
         var srcFile = new gutil.File({

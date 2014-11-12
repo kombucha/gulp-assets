@@ -26,11 +26,13 @@ module.exports = function (opts) {
     }
 
     function findCSSResources(htmlStr) {
-        var CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+        var BUILD_REGEX = /(<!-- build:css -->)([\s\S]*?)(<!-- endbuild -->)/,
+            CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+            buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = CSS_REGEX.exec(htmlStr)) {
+        while (matchArray = CSS_REGEX.exec(buildStr === null ? htmlStr : buildStr[2])) {
             resultsArray.push(matchArray[1]);
         }
 
