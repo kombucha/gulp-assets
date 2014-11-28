@@ -393,6 +393,41 @@ describe("gulp-assets", function () {
         stream.end();
     });
 
+    it("should find the css file even if they are in another path", function (done) {
+
+      var srcFile = new gutil.File({
+          path: "test/fixtures/foo.html",
+          cwd: "test/",
+          base: "test/fixtures",
+          contents: fs.readFileSync("test/fixtures/foo.html")
+        }),
+        stream = assets({
+            js: false,
+            css: true,
+            cwd: '../fixtures_2'
+        }),
+        cssFiles = [];
+
+      stream.on("error", function (err) {
+        should.exist(err);
+        done(err);
+      });
+
+      stream.on("data", function (newFile) {
+        cssFiles.push(newFile.path);
+      });
+
+      stream.on("end", function () {
+        cssFiles.should.have.lengthOf(2)
+          .and.contain('test/fixtures_2/css/foo.css')
+          .and.contain('test/fixtures_2/css/bar.css');
+        done();
+      });
+
+      stream.write(srcFile);
+      stream.end();
+    });
+
     it("should error on stream", function (done) {
 
         var srcFile = new gutil.File({

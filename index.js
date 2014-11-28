@@ -10,6 +10,7 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.js = 'js' in opts ? opts.js : true;
     opts.css = 'css' in opts ? opts.css : false;
+    opts.cwd = 'cwd' in opts ? opts.cwd : false;
 
     function findJavascriptResources(htmlStr) {
         var buildTag = typeof opts.js === 'string' ? opts.js : 'js',
@@ -46,6 +47,12 @@ module.exports = function (opts) {
             return this.emit('error', new gutil.PluginError('gulp-assets', 'Streams not supported'));
         }
 
+        if (opts.cwd === false) {
+            opts.cwd = file.base;
+        } else {
+            opts.cwd = path.join(file.base, opts.cwd);
+        }
+
         var htmlContent = String(file.contents),
             currentStream = this,
             filesSrc = [];
@@ -59,7 +66,7 @@ module.exports = function (opts) {
         }
 
         filesSrc.forEach(function (fileSrc) {
-            var filePath = path.join(file.base, fileSrc);
+            var filePath = path.join(opts.cwd, fileSrc);
 
             if(fs.existsSync(filePath)) {
                 currentStream.queue(new gutil.File({
