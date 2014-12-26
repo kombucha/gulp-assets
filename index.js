@@ -30,7 +30,7 @@ module.exports = function (opts) {
     function findCSSResources(htmlStr) {
         var buildTag = typeof opts.css === 'string' ? opts.css : 'css',
             BUILD_REGEX = new RegExp('<!-- build:' + buildTag + ' -->([\\s\\S]*?)<!-- endbuild -->', 'g'),
-            CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+            CSS_REGEX = /<link.*?href=(?:'|")(.*?\.css)(?:'|")/gi,
             buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
