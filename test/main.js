@@ -35,9 +35,9 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            javascriptFiles.should.have.lengthOf(2)
-                .and.contain('test/fixtures/js/foo.js')
-                .and.contain('test/fixtures/js/bar.js');
+            javascriptFiles.should.have.lengthOf(2);
+            javascriptFiles.should.containEql('test/fixtures/js/foo.js');
+            javascriptFiles.should.containEql('test/fixtures/js/bar.js');
             done();
         });
 
@@ -66,9 +66,9 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            javascriptFiles.should.have.lengthOf(2)
-                .and.contain('test/fixtures/js/foo.js')
-                .and.contain('test/fixtures/js/bar.js');
+            javascriptFiles.should.have.lengthOf(2);
+            javascriptFiles.should.containEql('test/fixtures/js/foo.js');
+            javascriptFiles.should.containEql('test/fixtures/js/bar.js');
             done();
         });
 
@@ -226,9 +226,9 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            cssFiles.should.have.lengthOf(2)
-                .and.contain('test/fixtures/css/foo.css')
-                .and.contain('test/fixtures/css/bar.css');;
+            cssFiles.should.have.lengthOf(2);
+            cssFiles.should.containEql('test/fixtures/css/foo.css');
+            cssFiles.should.containEql('test/fixtures/css/bar.css');
             done();
         });
 
@@ -257,9 +257,9 @@ describe("gulp-assets", function () {
         });
 
         stream.on("end", function () {
-            cssFiles.should.have.lengthOf(2)
-                .and.contain('test/fixtures/css/foo.css')
-                .and.contain('test/fixtures/css/bar.css');;
+            cssFiles.should.have.lengthOf(2);
+            cssFiles.should.containEql('test/fixtures/css/foo.css');
+            cssFiles.should.containEql('test/fixtures/css/bar.css');
             done();
         });
 
