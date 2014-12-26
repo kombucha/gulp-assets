@@ -10,13 +10,17 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.js = 'js' in opts ? opts.js : true;
     opts.css = 'css' in opts ? opts.css : false;
+    opts.cwd = 'cwd' in opts ? opts.cwd : false;
 
     function findJavascriptResources(htmlStr) {
-        var JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
+        var buildTag = typeof opts.js === 'string' ? opts.js : 'js',
+            BUILD_REGEX = new RegExp('<!-- build:' + buildTag + ' -->([\\s\\S]*?)<!-- endbuild -->', 'g'),
+            JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
+            buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = JS_REGEX.exec(htmlStr)) {
+        while (matchArray = JS_REGEX.exec(buildStr === null ? htmlStr : buildStr[1])) {
             resultsArray.push(matchArray[1]);
         }
 
@@ -24,11 +28,14 @@ module.exports = function (opts) {
     }
 
     function findCSSResources(htmlStr) {
-        var CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+        var buildTag = typeof opts.css === 'string' ? opts.css : 'css',
+            BUILD_REGEX = new RegExp('<!-- build:' + buildTag + ' -->([\\s\\S]*?)<!-- endbuild -->', 'g'),
+            CSS_REGEX = /<link.*?href=(?:'|")(.*?)(?:'|")/g,
+            buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = CSS_REGEX.exec(htmlStr)) {
+        while (matchArray = CSS_REGEX.exec(buildStr === null ? htmlStr : buildStr[1])) {
             resultsArray.push(matchArray[1]);
         }
 
@@ -38,6 +45,12 @@ module.exports = function (opts) {
     return through(function (file) {
         if (!(file.contents instanceof Buffer)) {
             return this.emit('error', new gutil.PluginError('gulp-assets', 'Streams not supported'));
+        }
+
+        if (opts.cwd === false) {
+            opts.cwd = file.base;
+        } else {
+            opts.cwd = path.join(file.base, opts.cwd);
         }
 
         var htmlContent = String(file.contents),
@@ -53,7 +66,7 @@ module.exports = function (opts) {
         }
 
         filesSrc.forEach(function (fileSrc) {
-            var filePath = path.join(file.base, fileSrc);
+            var filePath = path.join(opts.cwd, fileSrc);
 
             if(fs.existsSync(filePath)) {
                 currentStream.queue(new gutil.File({
@@ -67,10 +80,10 @@ module.exports = function (opts) {
     });
 };
 
-module.exports.js = function() {
-    return this({ css: false, js: true });
+module.exports.js = function(tag) {
+    return this({ css: false, js: typeof tag === 'undefined' ? true : tag });
 };
 
-module.exports.css = function() {
-    return this({ css: true, js: false });
+module.exports.css = function(tag) {
+    return this({ css: typeof tag === 'undefined' ? true : tag, js: false });
 };
