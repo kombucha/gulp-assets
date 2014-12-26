@@ -1,38 +1,16 @@
 {
   "name": "gulp-assets",
   "version": "0.2.2",
-  "description": "A plugin for Gulp that extracts the javascript and css files from your html and makes them available to other gulp tasks. ",
+  "description": "A gulp plugin to extract the .js and .css files from your html and make them available to other tasks.",
   "keywords": [
     "gulpplugin"
   ],
-  "homepage": "https://github.com/kombucha/gulp-assets",
-  "bugs": "https://github.com/kombucha/gulp-assets/issues",
   "author": {
     "name": "kombucha",
     "email": "",
     "url": "https://github.com/kombucha"
   },
-  "main": "./index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/kombucha/gulp-assets.git"
-  },
-  "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js test _mocha --report html -- test/*.js --reporter spec",
-    "coveralls": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
-  },
-  "dependencies": {
-    "through": "~2.3.4",
-    "gulp-util": "~3.0.1"
-  },
-  "devDependencies": {
-    "event-stream": "*",
-    "mocha": "*",
-    "coveralls": "*",
-    "mocha-lcov-reporter": "*",
-    "istanbul": "*",
-    "should": "~4.0.4"
-  },
+  "repository": "kombucha/gulp-assets",
   "engines": {
     "node": ">=0.10.0",
     "npm": ">=1.2.10"
@@ -42,5 +20,27 @@
       "type": "MIT",
       "url": "https://github.com/kombucha/gulp-assets/blob/master/LICENSE"
     }
-  ]
+  ],
+  "files": [
+    "index.js",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "_mocha",
+    "coverage": "istanbul cover _mocha",
+    "coveralls": "istanbul cover _mocha --report lcovonly && istanbul-coveralls"
+  },
+  "dependencies": {
+    "through": "^2.3.4",
+    "gulp-util": "^3.0.1"
+  },
+  "devDependencies": {
+    "coveralls": "*",
+    "event-stream": "*",
+    "istanbul": "*",
+    "istanbul-coveralls": "^1.0.1",
+    "mocha": "*",
+    "mocha-lcov-reporter": "*",
+    "should": "^4.4.1"
+  }
 }
