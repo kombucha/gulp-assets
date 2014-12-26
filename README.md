@@ -1,6 +1,11 @@
-# gulp-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
+# gulp-assets
 
-> assets plugin for [gulp](https://github.com/wearefractal/gulp)
+[![NPM version](https://img.shields.io/npm/v/gulp-assets.svg?style=flat)](https://www.npmjs.com/package/gulp-assets)
+[![Build Status](https://img.shields.io/travis/kombucha/gulp-assets.svg?style=flat)](https://travis-ci.org/kombucha/gulp-assets)
+[![Coverage Status](https://img.shields.io/coveralls/kombucha/gulp-assets.svg?style=flat)](https://coveralls.io/r/kombucha/gulp-assets)
+[![Dependency Status](https://david-dm.org/kombucha/gulp-assets.svg)](https://david-dm.org/kombucha/gulp-assets)
+
+> assets plugin for [gulp](http://gulpjs.com/)
 
 ## Usage
 
@@ -28,7 +33,8 @@ gulp.src("./src/*.html")
 ### assets(options)
 
 #### options.js
-Type: either a `boolean` or a `string`
+
+Type: either a `boolean` or a `string`  
 Default: true
 
 Whether you wish to get javascript files. If a string is used, only the javascript files between the appropriate comment tags will
@@ -52,7 +58,8 @@ assets({
 You will only get `js/foo.js` in your build stream
 
 #### options.css
-Type: either a `boolean` or a `string`
+
+Type: either a `boolean` or a `string`  
 Default: false
 
 Whether you wish to get css files. If a string is used, only the css files between the appropriate comment tags will
@@ -74,18 +81,21 @@ assets({
 ```
 
 #### options.cwd
-Type: `string`
+
+Type: `string`  
 Default: `undefined`
 
 If set, will be used as a base when building the files' paths.
 
 ### Shortcuts methods:
+
 ```javascript
 assets.js(<optional tagname>); // Only js files (between comment tags if tagname is set)
 assets.css(<optional tagname>); // Only css files  (between comment tags if tagname is set)
 ```
 
 ## Contributors
+
 - @kjbekkelund
 - @Zweer
 - @shinnn
@@ -93,15 +103,3 @@ assets.css(<optional tagname>); // Only css files  (between comment tags if tagn
 ## License
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
-
-[npm-url]: https://npmjs.org/package/gulp-assets
-[npm-image]: https://badge.fury.io/js/gulp-assets.png
-
-[travis-url]: http://travis-ci.org/kombucha/gulp-assets
-[travis-image]: https://secure.travis-ci.org/kombucha/gulp-assets.png?branch=master
-
-[coveralls-url]: https://coveralls.io/r/kombucha/gulp-assets
-[coveralls-image]: https://coveralls.io/repos/kombucha/gulp-assets/badge.png
-
-[depstat-url]: https://david-dm.org/kombucha/gulp-assets
-[depstat-image]: https://david-dm.org/kombucha/gulp-assets.png
