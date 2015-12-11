@@ -6,22 +6,26 @@ var through = require('through'),
     path = require('path');
 
 module.exports = function (opts) {
+    var BASE_JS_REGEX = /<script.*?src=(?:")(.*?)(?:")/g;
+    var BASE_CSS_REGEX = /<link.*?href=(?:'|")(.*?\.css)(?:'|")/gi;
 
     opts = opts || {};
     opts.js = 'js' in opts ? opts.js : true;
     opts.css = 'css' in opts ? opts.css : false;
     opts.cwd = 'cwd' in opts ? opts.cwd : false;
+    opts.js_regex = 'js_regex' in opts ? opts.js_regex : BASE_JS_REGEX;
+    opts.css_regex = 'css_regex' in opts ? opts.css_regex : BASE_CSS_REGEX;
+    opts.clean = 'clean' in opts ? opts.clean : function(value) { return value };
 
     function findJavascriptResources(htmlStr) {
         var buildTag = typeof opts.js === 'string' ? opts.js : 'js',
             BUILD_REGEX = new RegExp('<!-- build:' + buildTag + ' -->([\\s\\S]*?)<!-- endbuild -->', 'g'),
-            JS_REGEX = /<script.*?src=(?:'|")(.*?)(?:'|")/g,
             buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = JS_REGEX.exec(buildStr === null ? htmlStr : buildStr[1])) {
-            resultsArray.push(matchArray[1]);
+        while (matchArray = opts.js_regex.exec(buildStr === null ? htmlStr : buildStr[1])) {
+            resultsArray.push(opts.clean(matchArray[1]));
         }
 
         return resultsArray;
@@ -30,13 +34,12 @@ module.exports = function (opts) {
     function findCSSResources(htmlStr) {
         var buildTag = typeof opts.css === 'string' ? opts.css : 'css',
             BUILD_REGEX = new RegExp('<!-- build:' + buildTag + ' -->([\\s\\S]*?)<!-- endbuild -->', 'g'),
-            CSS_REGEX = /<link.*?href=(?:'|")(.*?\.css)(?:'|")/gi,
             buildStr = BUILD_REGEX.exec(htmlStr),
             resultsArray = [],
             matchArray;
 
-        while (matchArray = CSS_REGEX.exec(buildStr === null ? htmlStr : buildStr[1])) {
-            resultsArray.push(matchArray[1]);
+        while (matchArray = opts.css_regex.exec(buildStr === null ? htmlStr : buildStr[1])) {
+            resultsArray.push(opts.clean(matchArray[1]));
         }
 
         return resultsArray;
